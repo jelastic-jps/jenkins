@@ -1,0 +1,39 @@
+{
+	"jpsType": "install",
+	"application": {
+		"id": "jenkins",
+		"logo": "https://raw.githubusercontent.com/JelasticJPS/Jenkins/master/images/jenkins.png",
+		"name": "Jenkins",
+		"categories": [
+				"apps/dev-tools",
+				"apps/popular", "apps/dev-and-admin-tools"
+		],
+		"description": {
+			"text": "Jenkins is an open-source continuous integration server with 300+ plugins to support all kinds of software development."
+		},
+		"env": {
+			"topology": {
+				"engine": "java7",
+				"nodes": [{
+						"extip": false,
+						"cloudlets": 16,
+						"count": 1,
+						"nodeType": "tomcat7"
+					}
+				],
+				"ssl": false,
+				"ha": false
+			},
+			"deployments": [{
+					"name": "jenkins-1.643.war",
+					"context": "ROOT",
+					"archive": "https://raw.githubusercontent.com/JelasticJPS/Jenkins/master/dumps/jenkins.war"
+				}
+			]
+		},
+		"type": "java",
+		"homepage": "http://jenkins-ci.org/",
+		"version": "1.643"
+	},
+	"jpsVersion": "0.2"
+}
