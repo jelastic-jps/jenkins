@@ -1,7 +1,6 @@
 # Jelastic Jenkins Add-on
 
 This repository provides [Jenkins](http://jenkins-ci.org/) add-on for Jelastic Platform.
-[![GET IT HOSTED](https://raw.githubusercontent.com/JelasticJPS/Jenkins/master/images/getithosted.png)](http://go.jelastic.com/test?hoster-select=1&theme=modern&app=https://raw.githubusercontent.com/JelasticJPS/Jenkins/master/jenkins-1.643.json)
 
 **Jenkins** is an open-source continuous integration server with 300+ plugins to support all kinds of software development.
 
