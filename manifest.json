@@ -2,7 +2,7 @@
 	"jpsType": "install",
 	"application": {
 		"id": "jenkins",
-		"logo": "https://raw.githubusercontent.com/JelasticJPS/Jenkins/master/images/jenkins.png",
+		"logo": "https://raw.githubusercontent.com/jelastic-jps/Jenkins/master/images/jenkins.png",
 		"name": "Jenkins",
 		"categories": [
 				"apps/dev-tools",
@@ -27,7 +27,7 @@
 			"deployments": [{
 					"name": "jenkins-1.643.war",
 					"context": "ROOT",
-					"archive": "https://raw.githubusercontent.com/JelasticJPS/Jenkins/master/dumps/jenkins.war"
+					"archive": "https://raw.githubusercontent.com/jelastic-jps/Jenkins/master/dumps/jenkins.war"
 				}
 			]
 		},
