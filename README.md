@@ -1,4 +1,4 @@
-[![Jenkins](images/jenkins.png)](../jenkins)
+[![Jenkins](images/jenkins.jpg)](../jenkins)
 ##  Jenkins
 
 The JPS package deploys Jenkins that initially contains 1 application server.
