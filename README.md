@@ -24,7 +24,7 @@ AS                   | Tomcat Java |       1                        |           
 * CT - Container
 
 **Jenkins Version**: 2.0<br/>
-**Tomcat Version**: 8.0.30<br/>
+**Tomcat Version**: 8.5.3<br/>
 **Java Engine**: Java 8
 
 ---
