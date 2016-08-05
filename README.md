@@ -1,4 +1,4 @@
-[![Jenkins](images/jenkins.png)](../jenkins)
+[![Jenkins](images/jenkins.jpg)](../jenkins)
 ##  Jenkins
 
 The JPS package deploys Jenkins that initially contains 1 application server.
@@ -13,20 +13,20 @@ Jenkins can easily distribute work across multiple machines, helping drive build
 
 ### Environment Topology
 
-![Cyclos 4 Topology](https://docs.google.com/drawings/d/19cHh0JvMruTm4N8t6aAmB5ZqlaV-qLpto4iMvCv1-vo/pub?w=276&h=216)
+Java8 (Tomcat 8)
 
 ### Specifics
 
 Layer                |     Server    | Number of CTs <br/> by default | Cloudlets per CT <br/> (reserved/dynamic) | Options
 -------------------- | --------------| :----------------------------: | :---------------------------------------: | :-----:
-AS                   | Tomcat Java |       1                        |           1 / 16                          | -
+AS                   | Tomcat Java |       1                        |           1 / 24                          | -
 
 * AS - Application server 
 * CT - Container
 
-**Jenkins Version**: 1.656<br/>
-**Tomcat Version**: 7.0.67<br/>
-**Java Engine**: Java 7
+**Jenkins Version**: 2.0<br/>
+**Tomcat Version**: 8.0.30<br/>
+**Java Engine**: Java 8
 
 ### Deployment
 

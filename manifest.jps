@@ -2,30 +2,30 @@
 	"jpsType": "install",
 	"application": {
 		"id": "jenkins",
-		"logo": "https://raw.githubusercontent.com/jelastic-jps/jenkins/master/images/jenkins.png",
+		"logo": "https://raw.githubusercontent.com/jelastic-jps/jenkins/master/images/jenkins.jpg",
 		"name": "Jenkins",
 		"categories": [
 				"apps/dev-tools",
 				"apps/popular", "apps/dev-and-admin-tools"
 		],
 		"description": {
-			"text": "Jenkins is an open-source continuous integration server with 300+ plugins to support all kinds of software development."
+            "text": "Jenkins is an open source automation server with an unparalleled plugin ecosystem to support practically every tool as part of your delivery pipelines. Whether your goal is continuous integration, continuous delivery or something else entirely, Jenkins can help automate it."
 		},
 		"env": {
 			"topology": {
-				"engine": "java7",
+				"engine": "java8",
 				"nodes": [{
 						"extip": false,
-						"cloudlets": 16,
+						"cloudlets": 24,
 						"count": 1,
-						"nodeType": "tomcat7"
+						"nodeType": "tomcat8"
 					}
 				],
 				"ssl": false,
 				"ha": false
 			},
 			"deployments": [{
-					"name": "jenkins-1.643.war",
+					"name": "jenkins 2",
 					"context": "ROOT",
 					"archive": "https://raw.githubusercontent.com/jelastic-jps/jenkins/master/dumps/jenkins.war"
 				}
@@ -33,7 +33,7 @@
 		},
 		"type": "java",
 		"homepage": "http://jenkins-ci.org/",
-		"version": "1.643"
+		"version": "2.0"
 	},
-	"jpsVersion": "0.2"
+	"jpsVersion": "0.5"
 }
