@@ -12,7 +12,7 @@ This package is designed to deploy Jenkins environment is an open-source continu
 
 ### Environment Topology
 
-Java8 (Tomcat 8)
+![jenkins-environment-topology](images/jenkins-environment-topology.png)
 
 ### Specifics
 
