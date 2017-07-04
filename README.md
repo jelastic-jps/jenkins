@@ -18,7 +18,7 @@ This package is designed to deploy Jenkins environment is an open-source continu
 
 Layer                |     Server    | Number of CTs <br/> by default | Cloudlets per CT <br/> (reserved/dynamic) | Options
 -------------------- | --------------| :----------------------------: | :---------------------------------------: | :-----:
-AS                   | Tomcat Java |       1                        |           1 / 24                          | -
+AS                   | Tomcat Java |       1                        |           1 / 8                           | -
 
 * AS - Application server 
 * CT - Container
