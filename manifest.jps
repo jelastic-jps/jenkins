@@ -16,7 +16,7 @@
 				"engine": "java8",
 				"nodes": [{
 						"extip": false,
-						"cloudlets": 24,
+						"cloudlets": 8,
 						"count": 1,
 						"nodeType": "tomcat85"
 					}
