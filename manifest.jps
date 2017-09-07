@@ -2,7 +2,7 @@
 	"jpsType": "install",
 	"application": {
 		"id": "jenkins",
-		"logo": "https://raw.githubusercontent.com/jelastic-jps/jenkins/master/images/jenkins.jpg",
+		"logo": "https://raw.githubusercontent.com/jelastic-jps/jenkins/master/images/jenkins.png",
 		"name": "Jenkins",
 		"categories": [
 				"apps/dev-tools",
