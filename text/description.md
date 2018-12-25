@@ -1,1 +1,1 @@
-Jenkins DevOps Pack - autoscalable and clustered CI/CD solution with pre-installed plugins to support building and deployment automation.
+Autoscalable and clustered solution solution with pre-installed plugins to support building and deployment automation at continuous integration (CI) and continuous delivery (CD) pipelines.
