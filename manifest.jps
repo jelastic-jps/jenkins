@@ -31,7 +31,7 @@ onInstall:
       name: jenkins-${globals.jenkins}.war
       context: ROOT
       archive: http://mirrors.jenkins-ci.org/war-stable/${globals.jenkins}/jenkins.war
-  - checkSeviceStatus
+  - checkServiceStatus
   - setup 
 
 actions:
@@ -47,7 +47,7 @@ actions:
       $cmd install-plugin $names;
       sed -i 's|>NEW<|>RUNNING<|g' ~/.jenkins/config.xml
       sudo service tomcat restart
-   checkSeviceStatus:
+   checkServiceStatus:
     cmd[cp]: while [ ! -f ~/.jenkins/users/admin*/config.xml ]; do sleep 2; done
 
 success: /text/success.md
