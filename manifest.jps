@@ -14,7 +14,7 @@ globals:
   user: jelastic${fn.random(1000)}
   password: ${fn.password}
   tomcat: 9.0.12-jdk-10.0.2
-  jenkins: 2.150.1
+  jenkins: 2.164.1
   
 nodes:
   - cloudlets: 8
@@ -49,4 +49,12 @@ actions:
       sed -i 's|>NEW<|>RUNNING<|g' ~/.jenkins/config.xml
       sudo service tomcat restart
 
-success: /text/success.md
+success: |
+    Below you will find your admin link, username and password.</br></br>
+    <table style='font-size:13px; border: none;'><tr><td>Admin UI:</td><td
+    style='padding-left: 10px;'><a href='${env.url}'
+    target='_blank'>${env.url}</a></td></tr>  <tr><td>User
+    name:</td><td style='padding-left: 10px;'>${globals.user}</td></tr><tr><td>Password:</td><td
+    style='padding-left: 10px;'>${globals.password}</td></tr></table></br>To add
+    custom domain name for your Jenkins installation follow the steps described
+    in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>
