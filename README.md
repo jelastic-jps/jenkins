@@ -1,4 +1,4 @@
-<img src="images/jenkins.jpg" width="200"/>
+<img src="images/jenkins-logo.png" width="100"/>
 
 ##  Jenkins
 
@@ -12,7 +12,7 @@ This package is designed to deploy Jenkins environment is an open-source continu
 
 ### Environment Topology
 
-![jenkins-environment-topology](images/jenkins-environment-topology.png)
+![environment-topology](images/environment-topology.png)
 
 ### Specifics
 
@@ -23,9 +23,9 @@ AS                   | Tomcat Java |       1                        |           
 * AS - Application server 
 * CT - Container
 
-**Jenkins Version**: 2.0<br/>
-**Tomcat Version**: 8.5.3<br/>
-**Java Engine**: Java 8
+**Jenkins Version**: 2.164.1<br/>
+**Tomcat Version**: 9.0.12<br/>
+**Java Engine**: Java 10
 
 ---
 
