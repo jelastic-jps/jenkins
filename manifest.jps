@@ -17,7 +17,7 @@ globals:
   jenkins: 2.164.1
   
 nodes:
-  - cloudlets: 8
+  - cloudlets: 24
     nodeType: tomcat
     displayName: Master 
     tag: ${globals.tomcat}      
