@@ -42,6 +42,7 @@ github-branch-source
 github
 git
 github-api
+gradle
 workflow-aggregator
 lockable-resources
 pipeline-model-definition

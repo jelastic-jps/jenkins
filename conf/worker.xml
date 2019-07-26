@@ -1,0 +1,16 @@
+<slave>
+  <name>THEREMUSTBETHENODEID</name>
+  <remoteFS>/home/jelastic/</remoteFS>
+  <numExecutors>1</numExecutors>
+  <mode>NORMAL</mode>
+  <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+  <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+    <sshHostKeyVerificationStrategy class="hudson.plugins.sshslaves.verifiers.KnownHostsFileKeyVerificationStrategy"/>
+    <host>THEREMUSTBETHESLAVEHOST</host>
+    <port>22</port>
+    <credentialsId>worker</credentialsId>
+  </launcher>
+  <label>THEREMUSTBETHENODEID</label>
+  <nodeProperties/>
+  <userId>700</userId>
+</slave>
