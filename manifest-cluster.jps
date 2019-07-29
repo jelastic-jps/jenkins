@@ -1,6 +1,6 @@
 type: install
 id: jenkins
-baseUrl: https://raw.githubusercontent.com/SiryjVyiko/jenkins/master
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
 logo: /images/jenkins.png
 name: Jenkins DevOps Pack
 targetRegions:
