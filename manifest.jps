@@ -3,6 +3,8 @@ id: jenkins
 baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
 logo: /images/jenkins.png
 name: Jenkins DevOps Pack
+targetRegions:
+  type: [ vz.*, pcs.* ]
 categories:
   - apps/dev-tools
   - apps/popular
@@ -13,48 +15,38 @@ description: /text/description.md
 globals: 
   user: jelastic${fn.random(1000)}
   password: ${fn.password}
-  tomcat: 9.0.12-jdk-10.0.2
-  jenkins: 2.164.1
+  tomcat: 9.0.21-openjdk-11.0.2
+  javaengine: openjdk-11.0.2
+
+onBeforeInit: /scripts/quotascheck.js
   
 nodes:
-  - cloudlets: 24
+  - cloudlets: 8
     nodeType: tomcat
     displayName: Master 
-    tag: ${globals.tomcat}      
+    tag: ${globals.tomcat}
+    env:
+      XMX_DEF_PERCENT: 50
+
+  - cloudlets: 8
+    nodeType: javaengine
+    nodeGroup: slaves
+    displayName: Workers
+    tag: ${globals.javaengine} 
+    count: ${settings.nodes}
+    scalingMode: stateless
+    diskLimit: 20G
+    startService: false
 
 skipNodeEmails: true
 
-onBeforeInit: return {result:0, ssl:!!jelastic.billing.account.GetQuotas('environment.jelasticssl.enabled').array[0].value}
+onInstall:
+  install:
+    jps: ${baseUrl}/addons/auto-clustering/auto-cluster.jps?_r=${fn.random}
+    nodeGroup: cp
+    settings:
+      cloned: 'false'
+      user: ${globals.user}
+      password: ${globals.password}
 
-onInstall: 
-  - deploy:
-      name: jenkins-${globals.jenkins}.war
-      context: ROOT
-      archive: http://mirrors.jenkins-ci.org/war-stable/${globals.jenkins}/jenkins.war
-  - setup 
-
-actions:
-   setup:
-    cmd[cp]: |-
-      while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
-      pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
-      jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
-      cmd="java -jar $jar -auth admin:$pswd -s http://localhost:8080/"
-      until $(echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("${globals.user}", "${globals.password}")' | $cmd groovy =); do echo "repeat..."; sleep 2; done
-      printf "<?xml version='1.1' encoding='UTF-8'?>\n<jenkins.model.JenkinsLocationConfiguration>\n\t<adminAddress>${user.email}</adminAddress>\n\t<jenkinsUrl>${env.protocol}://${env.domain}/</jenkinsUrl>\n</jenkins.model.JenkinsLocationConfiguration>" > ~/.jenkins/jenkins.model.JenkinsLocationConfiguration.xml
-      wget ${baseUrl}/conf/plugins.txt -O plugins.txt
-      while read p; do names="${p%% *} $names"; done < plugins.txt;
-      #declare -a arr=($names); for i in "${arr[@]}"; do $cmd install-plugin $i; done
-      $cmd install-plugin $names;
-      sed -i 's|>NEW<|>RUNNING<|g' ~/.jenkins/config.xml
-      sudo service tomcat restart
-
-success: |
-    Below you will find your admin link, username and password.</br></br>
-    <table style='font-size:13px; border: none;'><tr><td>Admin UI:</td><td
-    style='padding-left: 10px;'><a href='${env.url}'
-    target='_blank'>${env.url}</a></td></tr>  <tr><td>User
-    name:</td><td style='padding-left: 10px;'>${globals.user}</td></tr><tr><td>Password:</td><td
-    style='padding-left: 10px;'>${globals.password}</td></tr></table></br>To add
-    custom domain name for your Jenkins installation follow the steps described
-    in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>
+success: /text/success.md
