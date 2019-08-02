@@ -6,8 +6,7 @@ name: Jenkins DevOps Pack
 targetRegions:
   type: [ vz.*, pcs.* ]
 categories:
-  - apps/dev-tools
-  - apps/popular
+  - apps/clusters
   - apps/dev-and-admin-tools
 homepage: https://jenkins.io/
 description: /text/description.md
