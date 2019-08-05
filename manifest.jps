@@ -18,6 +18,7 @@ globals:
   javaengine: openjdk-11.0.2
 
 onBeforeInit: /scripts/quotascheck.js
+onBeforeInstall: /scripts/workerscheck.js
   
 nodes:
   - cloudlets: 8
