@@ -2,7 +2,7 @@ if ("${settings.nodes}" != 0) return {result: 0}
 
 var version = jelastic.system.service.GetVersion().version;
 
-if (version < "5.7.1") {
+if (version < "5.7") {
   return {
     result: 0,
     nodes: {
