@@ -10,7 +10,7 @@ for (var i = 0, n = q.length; i < n; i++) {
   value = q[i].value;
 
   if (name == SSL) { 
-    ssl = !!(name == SSL);
+    ssl = !!value;
     continue;
   }
   
