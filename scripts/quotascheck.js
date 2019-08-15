@@ -9,11 +9,8 @@ for (var i = 0, n = q.length; i < n; i++) {
   name = q[i].quota.name;
   value = q[i].value;
 
-  jelastic.marketplace.console.WriteLog("name->" + name);
   if (name == SSL) { 
-      jelastic.marketplace.console.WriteLog(!!(name == SSL));
     ssl = !!(name == SSL);
-      jelastic.marketplace.console.WriteLog("ssl->" + ssl);
     continue;
   }
   
