@@ -2,9 +2,7 @@
 
 ##  Jenkins
 
-[![Deploy](https://github.com/jelastic-jps/git-push-deploy/raw/master/images/deploy-to-jelastic.png)](https://jelastic.com/install-application/?manifest=https%3A%2F%2Fgithub.com%2Fjelastic-jps%2Fjenkins%2Fraw%2Fmaster%2Fmanifest.jps) 
-
-The JPS package deploys Jenkins that initially contains 1 application server.
+By default the JPS package deploys Jenkins Cluster that initially contains 1 application server that acts as master and 2 scalable application servers that act as workers.
 
 ### Highlights
 This package is designed to deploy Jenkins environment is an open-source continuous integration server with 300+ plugins to support all kinds of software development. As an extensible automation server, Jenkins can be used as a simple CI server or turned into the continuous delivery hub for any project.
@@ -12,20 +10,21 @@ This package is designed to deploy Jenkins environment is an open-source continu
 
 ### Environment Topology
 
-![environment-topology](images/environment-topology.png)
+![environment-topology](images/environment-topology-clustered.png)
 
 ### Specifics
 
 Layer                |     Server    | Number of CTs <br/> by default | Cloudlets per CT <br/> (reserved/dynamic) | Options
 -------------------- | --------------| :----------------------------: | :---------------------------------------: | :-----:
-AS                   | Tomcat Java |       1                        |           1 / 8                           | -
+AS master                   | Tomcat Java |       1                        |           1 / 8                           | -
+AS worker                  | Java Engine |       2                        |           1 / 8                           | -
 
 * AS - Application server 
 * CT - Container
 
-**Jenkins Version**: 2.164.1<br/>
-**Tomcat Version**: 9.0.12<br/>
-**Java Engine**: Java 10
+**Jenkins Version**: Latest<br/>
+**Tomcat Version**: 9.0.21<br/>
+**Java Engine**: Java 11
 
 ---
 
