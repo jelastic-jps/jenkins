@@ -104,3 +104,4 @@ command-launcher
 script-security
 jdk-tool
 cloudbees-folder
+maven-plugin
