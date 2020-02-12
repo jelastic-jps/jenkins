@@ -101,6 +101,7 @@ actions:
       $cmd install-plugin $names;
       sed -i 's|>NEW<|>RUNNING<|g' ~/.jenkins/config.xml
       sed -i 's/<numExecutors>[0-9]*<\/numExecutors>/<numExecutors>0<\/numExecutors>/g' ~/.jenkins/config.xml;
+      curl -o .jenkins/hudson.tasks.Maven.xml ${baseUrl}/conf/hudson.tasks.Maven.xml
       sudo service tomcat restart
       while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
       echo -e "\n"|ssh-keygen -t rsa -N ""
