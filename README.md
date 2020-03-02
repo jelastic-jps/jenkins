@@ -38,7 +38,7 @@ To deploy this package to Jelastic Private Cloud, import [this JPS manifest](../
 
 More information about Jelastic JPS package and about installation widget for your website can be found in the [Jelastic JPS Application Package](https://github.com/jelastic-jps/jpswiki/wiki/Jelastic-JPS-Application-Package) reference.
 
-Brief demo how to deploy Jenkins Cluster to the cloud, build projects and scale the cluster. 
+Brief demo how to deploy Jenkins Cluster to the cloud and scale it. 
 
 <p align="left"> 
 <img src="images/jenkins.gif" width="1920">
