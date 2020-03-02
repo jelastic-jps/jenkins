@@ -41,6 +41,7 @@ More information about Jelastic JPS package and about installation widget for yo
 Brief demo how to deploy Jenkins Cluster to the cloud, build projects and scale the cluster. 
 
 <p align="left"> 
-<img src="images/jenkins-fullhd.gif" width="1920">
+<img src="images/jenkins.gif" width="1920">
 </p>
+
 
