@@ -1,8 +1,8 @@
-<img src="images/jenkins-logo.png" width="100"/>
+<img src="images/jenkins-new-logo.png" width="100"/>
 
-##  Jenkins
+##  Jenkins DevOps Pack
 
-By default the JPS package deploys Jenkins Cluster that initially contains 1 application server that acts as master and 2 scalable application servers that act as workers.
+By default the JPS package deploys Jenkins Cluster that initially contains 1 master node and 2 scalable slave nodes acting as workers with auto-discovering and self-registering inside a master node.
 
 ### Highlights
 This package is designed to deploy Jenkins environment is an open-source continuous integration server with 300+ plugins to support all kinds of software development. As an extensible automation server, Jenkins can be used as a simple CI server or turned into the continuous delivery hub for any project.
@@ -37,3 +37,11 @@ In order to get this solution instantly deployed, click the "Deploy" button, spe
 To deploy this package to Jelastic Private Cloud, import [this JPS manifest](../../raw/master/manifest.jps) within your dashboard ([detailed instruction](https://docs.jelastic.com/environment-import)).
 
 More information about Jelastic JPS package and about installation widget for your website can be found in the [Jelastic JPS Application Package](https://github.com/jelastic-jps/jpswiki/wiki/Jelastic-JPS-Application-Package) reference.
+
+Brief demo how to deploy Jenkins Cluster to the cloud and scale it. 
+
+<p align="left"> 
+<img src="images/jenkins.gif" width="1920">
+</p>
+
+
