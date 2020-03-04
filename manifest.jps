@@ -1,7 +1,7 @@
 type: install
 id: jenkins
 baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
-logo: /images/jenkins.png
+logo: /images/jenkins-jelastic.png
 name: Jenkins DevOps Pack
 targetRegions:
   type: [ vz.*, pcs.* ]
@@ -48,5 +48,6 @@ onInstall:
       cloned: 'false'
       user: ${globals.user}
       password: ${globals.password}
+  cmd[cp]: wget ${baseUrl}/images/jenkins.svg -O ${WEBROOT}ROOT/images/jenkins.svg
 
 success: /text/success.md
