@@ -14,17 +14,16 @@ description: /text/description.md
 globals: 
   user: jelastic${fn.random(1000)}
   password: ${fn.password}
-  tomcat: 9.0.30-openjdk-11.0.4
-  javaengine: openjdk-11.0.4
+  engine: openjdk11
 
 onBeforeInit: /scripts/quotascheck.js
 onBeforeInstall: /scripts/workerscheck.js
-  
+
 nodes:
   - cloudlets: 16
-    nodeType: tomcat
+    nodeType: tomcat9
+    engine: ${globals.engine} 
     displayName: Master 
-    tag: ${globals.tomcat}
     env:
       XMX_DEF_PERCENT: 50
 
@@ -32,7 +31,7 @@ nodes:
     nodeType: javaengine
     nodeGroup: slaves
     displayName: Workers
-    tag: ${globals.javaengine} 
+    engine: ${globals.engine}  
     count: ${settings.nodes}
     scalingMode: stateless
     diskLimit: 100G
