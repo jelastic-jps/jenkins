@@ -99,6 +99,9 @@ actions:
       wget ${baseUrl}/conf/plugins.txt -O plugins.txt
       while read p; do names="${p%% *} $names"; done < plugins.txt;
       $cmd install-plugin $names;
+    cmd[cp]: |-
+      pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
+      jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
       sed -i 's|>NEW<|>RUNNING<|g' ~/.jenkins/config.xml
       sed -i 's/<numExecutors>[0-9]*<\/numExecutors>/<numExecutors>0<\/numExecutors>/g' ~/.jenkins/config.xml;
       curl -o .jenkins/hudson.tasks.Maven.xml ${baseUrl}/conf/hudson.tasks.Maven.xml
