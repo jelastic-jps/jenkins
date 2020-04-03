@@ -17,7 +17,7 @@ onInstall:
     - deploy:
         name: jenkins-latest.war
         context: ROOT
-        archive: http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
+        archive: http://mirrors.jenkins-ci.org/war-stable/2.204.6/jenkins.war
     - setupMaster
   - if (settings.cloned == 'true'): cleanupNodes
   - readPublicKeyFromMaster
