@@ -42,7 +42,6 @@ skipNodeEmails: true
 onInstall:
   install:
     jps: ${baseUrl}/addons/auto-clustering/auto-cluster.jps?_r=${fn.random}
-    nodeGroup: cp
     settings:
       cloned: 'false'
       user: ${globals.user}
