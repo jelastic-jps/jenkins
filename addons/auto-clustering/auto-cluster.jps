@@ -48,7 +48,6 @@ onAfterClone:
   install:
     jps: ${baseUrl}/addons/auto-clustering/auto-cluster.jps?_r=${fn.random}
     envName: ${event.response.env.envName}
-    nodeGroup: cp
     settings:
       cloned: 'true'
       user: ${settings.user}
