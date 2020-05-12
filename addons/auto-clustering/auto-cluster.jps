@@ -90,11 +90,11 @@ actions:
 
    installJenkinsPlugins:
     cmd[cp]: |-
-      while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
+      while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 5; done
       pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
       cmd="java -Xmx100M -jar $jar -auth admin:$pswd -s http://localhost:8080/"
-      until $(echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("${settings.user}", "${settings.password}")' | $cmd groovy =); do echo "repeat..."; sleep 2; done
+      until $(echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("${settings.user}", "${settings.password}")' | $cmd groovy =); do echo "repeat..."; sleep 5; done
       printf "<?xml version='1.1' encoding='UTF-8'?>\n<jenkins.model.JenkinsLocationConfiguration>\n\t<adminAddress>${user.email}</adminAddress>\n\t<jenkinsUrl>${env.protocol}://${env.domain}/</jenkinsUrl>\n</jenkins.model.JenkinsLocationConfiguration>" > ~/.jenkins/jenkins.model.JenkinsLocationConfiguration.xml
       wget ${baseUrl}/conf/plugins.txt -O plugins.txt
       while read p; do names="${p%% *} $names"; done < plugins.txt
