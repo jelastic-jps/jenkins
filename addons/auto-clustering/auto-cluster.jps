@@ -22,9 +22,11 @@ onInstall:
     - setupMaster
   - if (settings.cloned == 'true'): cleanupNodes
   - readPublicKeyFromMaster
+  - set:
+      key: ${response.body}
   - forEach(nodes.slaves):
       initSlave:
-        publicKey: ${response.body}
+        publicKey: ${this.key}
         slaveNodeId: ${@i.id}
         slaveNodeIp: ${@i.intIP}
           
