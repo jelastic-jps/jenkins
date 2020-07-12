@@ -32,9 +32,11 @@ onInstall:
           
 onAfterScaleOut[slaves]:
   - readPublicKeyFromMaster
+  - set:
+      key: ${response.body}
   - forEach(event.response.nodes):
       initSlave:
-        publicKey: ${response.body}
+        publicKey: ${this.key}
         slaveNodeId: ${@i.id}
         slaveNodeIp: ${@i.intIP}
           
