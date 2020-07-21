@@ -1,0 +1,24 @@
+type: install
+id: jenkins
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
+logo: /images/jenkins-jelastic.png
+name: Jenkins DevOps Pack
+targetRegions:
+  type: [ vz.*, pcs.* ]
+categories:
+  - apps/clusters
+  - apps/dev-and-admin-tools
+homepage: https://jenkins.io/
+description: /text/description.md
+
+globals: 
+  engine: openjdk11
+
+onBeforeInit: /scripts/quotascheck-certified.js
+
+onBeforeInstall: |
+  return {result:0, nodes:[{cloudlets:16, nodeType:"jenkins2", engine:"${globals.engine}", displayName:"Master", cluster:{nodes:"${settings.nodes:1}"}}]}
+
+nodes: definedInOnBeforeInstall
+
+success: /text/success.md

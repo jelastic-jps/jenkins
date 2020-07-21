@@ -1,0 +1,40 @@
+{
+  "convertable": false,
+  "jps": "https://raw.githubusercontent.com/jelastic-jps/jenkins/master/addons/auto-clustering/auto-cluster-certified.jps",
+  "defaultState": true,
+  "required": true,
+  "compatibleAddons": [
+    "jenkins-auto-cluster"
+  ],
+  "nodeGroupData": {
+    "skipNodeEmails": false,
+    "scalingMode": "STATEFUL",
+    "adminUrl": "",
+    "isResetServicePassword": true,
+    "isDeploySupport": false,
+    "fixedCloudlets": 4,
+    "flexibleCloudlets": 16
+  },
+  "validation": {
+    "maxCount": 1
+  },
+  "recommended": {
+    "cloudlets": 16
+  },
+  "description": "Сlustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines.",
+  "skipOnEnvInstall": true,
+  "extraNodes": {
+    "nodeGroup": "slaves",
+    "nodeType": "javaengine",
+    "engine": "openjdk11",
+    "fixedCloudlets": 8,
+    "flexibleCloudlets": 16,
+    "diskLimit": "100G",
+    "displayName": "Workers",
+    "count": "${settings.nodes:1}",
+    "isClusterSupport": false,
+    "isDeploySupport": false,
+    "isClusterDependency": true,
+    "scalingMode": "STATELESS"
+  }
+}

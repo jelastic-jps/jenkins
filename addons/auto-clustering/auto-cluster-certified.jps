@@ -1,0 +1,131 @@
+type: update
+id: jenkins-auto-cluster
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
+logo: /images/jenkins.png
+name: Jenkins DevOps Pack Cluster Logic
+targetNodes: none
+
+nodeGroupAlias:
+  ${settings.nodeGroup}: cp
+
+onInstall:
+  - if (${settings.cloned:false}): cleanupNodes
+  - else: 
+      - setupMaster
+      - configureSlaves: ${nodes.slaves.join(id,)}
+  - readPublicKeyFromMaster
+  - set:
+      key: ${response.body}
+  - forEach(nodes.slaves):
+      - initSlave:
+          publicKey: ${this.key}
+          slaveNodeId: ${@i.id}
+          slaveNodeIp: ${@i.intIP}
+          
+onAfterScaleOut[slaves]:
+  - configureSlaves: ${event.response.nodes.join(id,)}
+  - readPublicKeyFromMaster
+  - set:
+      key: ${response.body}
+  - forEach(event.response.nodes):
+      - initSlave:
+          publicKey: ${this.key}
+          slaveNodeId: ${@i.id}
+          slaveNodeIp: ${@i.intIP}
+          
+onBeforeScaleIn[slaves]:
+  forEach(event.response.nodes):
+    removeSlave:
+      slaveNodeIp: ${@i.intIP}
+      
+onBeforeRemoveNode [cp]:
+  if (nodes.cp.length == 1):
+    install:
+      type: update
+      name: Jenkins DevOps Pack Cluster Logic
+      id: jenkins-auto-cluster
+
+onAfterClone:
+  - script: delete MANIFEST.id; return {result:0, jps:MANIFEST};
+  - install: ${response.jps}
+    envName: ${event.response.env.envName}
+    settings:
+      nodeGroup: ${settings.nodeGroup} 
+      cloned: true
+      
+onAfterMigrate:
+  - cleanupNodes
+  - readPublicKeyFromMaster
+  - set:
+      key: ${response.body}
+  - forEach(nodes.slaves):
+      - initSlave:
+          publicKey: ${this.key}
+          slaveNodeId: ${@i.id}
+          slaveNodeIp: ${@i.intIP}
+
+actions:
+   cleanupNodes:
+    cmd[cp]: |-
+      xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "http://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
+      rm -rf /var/lib/jenkins/nodes/*;
+      echo "" > /home/jelastic/.ssh/known_hosts;
+      service jenkins restart;
+    user: root
+
+   setupMaster:
+    - cmd[cp]: |-
+        pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+        jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
+        sudo service jenkins restart
+        while [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
+        echo -e "\n"|ssh-keygen -t rsa -N ""
+        wget ${baseUrl}/conf/credentials.xml -O credentials.xml
+        xmlstarlet ed --inplace -u "com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey/privateKeySource/privateKey" -v "$(cat .ssh/id_rsa)" credentials.xml 2>/dev/null;
+        cat credentials.xml | java -jar $jar -s http://localhost -auth admin:$pswd create-credentials-by-xml "SystemCredentialsProvider::SystemContextResolver::jenkins" "(global)"
+        wget ${baseUrl}/conf/jenkins.model.JenkinsLocationConfiguration.xml -O /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
+        chmod 644 /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 
+        xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/adminAddress" -v "${user.email}" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
+        xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "http://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
+        rm -f credentials.xml
+        wget ${baseUrl}/conf/user-creation.groovy
+        sed -i 's/EMAIL/${user.email}/' user-creation.groovy
+        cat user-creation.groovy | java -jar $jar -auth admin:$pswd -s http://localhost/ groovy =
+        rm -f user-creation.groovy
+        sudo service jenkins restart
+   
+   readPublicKeyFromMaster:
+    api: env.file.Read
+    path: /home/jelastic/.ssh/id_rsa.pub
+    nodeid: ${nodes.cp.master.id}
+    
+   configureSlaves:
+    - cmd[${this}]:
+        yum -y install gettext;
+        echo -e "/home/jelastic/.ssh/authorized_keys\n/etc/ssh/\n/home/jelastic/remoting\n/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf;
+      user: root
+        
+   initSlave:
+    - cmd[${this.slaveNodeId}]: |-
+        echo "${this.publicKey}" >> /home/jelastic/.ssh/authorized_keys;
+        cat /etc/ssh/ssh_host_rsa_key.pub
+    - cmd[${nodes.cp.master.id}]: |-
+        ssh-keygen -R ${this.slaveNodeIp}
+        echo ${this.slaveNodeIp} ${response.out} >> ~/.ssh/known_hosts
+        pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+        jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
+        wget ${baseUrl}/conf/worker.xml -O worker.xml
+        xmlstarlet ed --inplace -u "slave/name" -v "node${this.slaveNodeId}" worker.xml 2>/dev/null;
+        xmlstarlet ed --inplace -u "slave/launcher/host" -v "${this.slaveNodeIp}" worker.xml 2>/dev/null;
+        xmlstarlet ed --inplace -u "slave/label" -v "node${this.slaveNodeId}" worker.xml 2>/dev/null;
+        cat worker.xml | java -jar $jar -s http://localhost -auth admin:$pswd create-node node${this.slaveNodeId}
+        rm -f worker.xml
+   
+   removeSlave:
+    cmd[${nodes.cp.master.id}]: |-
+      pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+      jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
+      cd /var/lib/jenkins/nodes
+      slave_node_name=$(dirname $(grep -Rl '${this.slaveNodeIp}' *))
+      java -jar $jar -s http://localhost -auth admin:$pswd delete-node ${slave_node_name}
+      sed -i "/^${this.slaveNodeIp}/d" /home/jelastic/.ssh/known_hosts
