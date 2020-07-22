@@ -71,6 +71,7 @@ actions:
       rm -rf /var/lib/jenkins/nodes/*;
       echo "" > /home/jelastic/.ssh/known_hosts;
       service jenkins restart;
+      while [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done;
     user: root
 
    setupMaster:
