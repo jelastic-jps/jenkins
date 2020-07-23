@@ -21,7 +21,7 @@
   "recommended": {
     "cloudlets": 16
   },
-  "description": "Сlustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines.<img width='290' height='156' src='https://github.com/jelastic/icons/blob/master/jenkins/jelastic/images/tip-cluster-ps.svg?sanitize=true'>",
+  "description": "Сlustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines.<img width='290' height='156' src='https://raw.githubusercontent.com/jelastic/icons/master/jenkins/jelastic/images/tip-cluster-ps.svg?sanitize=true'>",
   "skipOnEnvInstall": true,
   "extraNodes": {
     "nodeGroup": "slaves",
