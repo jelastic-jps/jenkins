@@ -44,6 +44,9 @@ onBeforeRemoveNode [cp]:
       type: update
       name: Jenkins DevOps Pack Cluster Logic
       id: jenkins-auto-cluster
+      
+onAfterStart:
+  - cmd[cp]: sudo service jenkins start
 
 onAfterClone:
   - script: delete MANIFEST.id; return {result:0, jps:MANIFEST};
