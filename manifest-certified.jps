@@ -1,5 +1,6 @@
 type: install
 id: jenkins
+version: "1.8.1"
 baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
 logo: /images/jenkins-jelastic.png
 name: Jenkins DevOps Pack
