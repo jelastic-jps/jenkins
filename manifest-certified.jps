@@ -22,4 +22,4 @@ onBeforeInstall: |
 
 nodes: definedInOnBeforeInstall
 
-success: /text/success.md
+success: /text/success-certified.md
