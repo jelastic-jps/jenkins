@@ -21,7 +21,7 @@
   "recommended": {
     "cloudlets": 16
   },
-  description": "Сlustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines.",
+  "description": "Сlustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines.>",
   "skipOnEnvInstall": true,
   "extraNodes": {
     "nodeGroup": "slaves",
