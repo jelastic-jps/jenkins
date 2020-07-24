@@ -10,7 +10,10 @@ This package is designed to deploy Jenkins environment is an open-source continu
 
 ### Environment Topology
 
-![environment-topology](images/environment-topology-clustered.png)
+<p align="left"> 
+<img src="images/tip-cluster-ps.svg" width="325">
+</p>
+
 
 ### Specifics
 
