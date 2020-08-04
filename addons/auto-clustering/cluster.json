@@ -35,6 +35,7 @@
     "isClusterSupport": false,
     "isDeploySupport": false,
     "isClusterDependency": true,
-    "scalingMode": "STATELESS"
+    "scalingMode": "STATELESS",
+    "applyQuotas": true
   }
 }
