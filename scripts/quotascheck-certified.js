@@ -36,18 +36,18 @@ function getVersion() {
 }
 
 function getPlatformVersion() {
-    return getVersion().version.split("-").shift();
+    return getVersion().version + "-" + getVersion().build;
 }
 
 function compareVersions(a, b) {
-    a = a.split("."); b = b.split(".");
+    a = a.split(/.-/); b = b.split(/.-/);
     for (var i = 0, l = Math.max(a.length, b.length), x, y; i < l; i++) {x = parseInt(a[i], 10) || 0; y = parseInt(b[i], 10) || 0; if (x != y) return x > y ? 1 : -1 }
     return 0;
 }
 
 var platformVersion = getPlatformVersion();
 
-if (compareVersions(platformVersion, '5.9') >= 0) {
+if (compareVersions(platformVersion, '5.9-2') >= 0) {
     resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 1, max: max, "default": Math.min(min, max)}]}};
 } else {
     resp = {result:0, settings: {fields:[]}};    
