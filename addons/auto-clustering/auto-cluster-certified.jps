@@ -112,6 +112,7 @@ actions:
    initSlave:
     - cmd[${this.slaveNodeId}]: |-
         echo "${this.publicKey}" >> /home/jelastic/.ssh/authorized_keys;
+        echo '. /etc/profile' >> /home/jelastic/.bashrc
         cat /etc/ssh/ssh_host_rsa_key.pub
     - cmd[${nodes.cp.master.id}]: |-
         ssh-keygen -R ${this.slaveNodeIp}
