@@ -21,7 +21,7 @@
   "recommended": {
     "cloudlets": 16
   },
-  "description": "<h3>Jenkins CI/CD Automation Software</h3>Сlustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines.<img width='250' height='250' src='https://raw.githubusercontent.com/jelastic/icons/master/jenkins/jelastic/images/tip-cluster-ps.svg?sanitize=true'>",
+  "description": "<h3>Jenkins CI/CD Automation Software</h3>Сlustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines. <a href='https://jelastic.com/blog/jenkins-cluster-hosting-continuous-integration-delivery/'>Learn more</a> <img width='250' height='250' src='https://raw.githubusercontent.com/jelastic/icons/master/jenkins/jelastic/images/tip-cluster-ps.svg?sanitize=true'>",
   "skipOnEnvInstall": true,
   "extraNodes": {
     "nodeGroup": "slaves",
