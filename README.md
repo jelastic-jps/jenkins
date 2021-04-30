@@ -2,7 +2,7 @@
 
 ##  Jenkins DevOps Pack
 
-By default, the JPS package deploys Jenkins Cluster that initially contains 1 certified Jenkins container acting as a master node and 2 slave nodes acting as workers. Workers can be scaled horizontally from 1 to 10 nodes with auto-discovering and self-registering inside the master node.
+By default, the JPS package deploys Jenkins Cluster that initially contains 1 certified Jenkins container acting as a primary (previously known as master) node and 2 isecondary (previously known as slave) nodes acting as workers. Workers can be scaled horizontally from 1 to 10 nodes with auto-discovering and self-registering inside the primary node.
 
 ### Highlights
 This package is designed to deploy Jenkins environment is an open-source continuous integration server with 300+ plugins to support all kinds of software development. As an extensible automation server, Jenkins can be used as a simple CI server or turned into the continuous delivery hub for any project.
@@ -19,7 +19,7 @@ This package is designed to deploy Jenkins environment is an open-source continu
 
 Layer                |     Server    | Number of CTs <br/> by default | Cloudlets per CT <br/> (reserved/dynamic) | Options
 -------------------- | --------------| :----------------------------: | :---------------------------------------: | :-----:
-AS master                   | Certified Jenkins Container |       1                        |           12 / 16                           | -
+AS primary                   | Certified Jenkins Container |       1                        |           12 / 16                           | -
 AS worker                  | Java Engine |       2                        |           8 / 16                           | -
 
 * AS - Application server 
