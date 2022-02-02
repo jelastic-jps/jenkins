@@ -5,7 +5,17 @@ var MAX_CLOUDLET = "environment.maxcloudletsperrec",
 
 var cloudlets = 16;
 
-var max = 10, min = 2, resp, name, value, ssl, markup = "", ssl_markup = "", q = jelastic.billing.account.GetQuotas(MAX_NODES + ";" + SAME_NODES + ";" + MAX_CLOUDLET + ";" + SSL).array || [];
+var max = 10, min = 2, resp, name, value, ssl, markup = "", ssl_markup = "";
+
+var hasCollaboration = (parseInt('${fn.compareEngine(7.0)}', 10) >= 0),
+    q = [];
+
+if (hasCollaboration) {
+    quotas = JSON.parse('${quota.data}');
+    quotas = [ quotas[MAX_CLOUDLET], quotas[SAME_NODES], quotas[MAX_NODES], quotas[SSL] ];
+} else {
+    quotas = jelastic.billing.account.GetQuotas(MAX_NODES + ";" + SAME_NODES + ";" + MAX_CLOUDLET + ";" + SSL).array || [];
+}
 
 for (var i = 0, n = q.length; i < n; i++) {
   name = q[i].quota.name;
