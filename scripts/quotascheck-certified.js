@@ -12,7 +12,7 @@ var hasCollaboration = (parseInt('${fn.compareEngine(7.0)}', 10) >= 0),
 
 if (hasCollaboration) {
     q = JSON.parse('${quota.data}');
-    q = [ quotas[MAX_CLOUDLET], quotas[SAME_NODES], quotas[MAX_NODES], quotas[SSL] ];
+    q = [ q[MAX_CLOUDLET], q[SAME_NODES], q[MAX_NODES], q[SSL] ];
 } else {
     q = jelastic.billing.account.GetQuotas(MAX_NODES + ";" + SAME_NODES + ";" + MAX_CLOUDLET + ";" + SSL).array || [];
 }
