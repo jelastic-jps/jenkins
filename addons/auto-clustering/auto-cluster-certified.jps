@@ -74,7 +74,7 @@ actions:
       rm -rf /var/lib/jenkins/nodes/*;
       echo "" > /home/jelastic/.ssh/known_hosts;
       service jenkins restart;
-      while [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done;
+      retries=15; while [ $retries -gt 0 ]; do [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]] || break; sleep 10; let retries=${retries}-1; done;
     user: root
 
    setupMaster:
@@ -82,7 +82,7 @@ actions:
         pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
         jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
         sudo service jenkins restart
-        while [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
+        retries=15; while [ $retries -gt 0 ]; do [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]] || break; sleep 10; let retries=${retries}-1; done;
         echo -e "\n"|ssh-keygen -t rsa -N ""
         wget ${baseUrl}/conf/credentials.xml -O credentials.xml
         xmlstarlet ed --inplace -u "com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey/privateKeySource/privateKey" -v "$(cat .ssh/id_rsa)" credentials.xml 2>/dev/null;
