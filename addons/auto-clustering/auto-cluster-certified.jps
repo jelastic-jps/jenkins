@@ -73,7 +73,7 @@ actions:
       xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "http://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
       rm -rf /var/lib/jenkins/nodes/*;
       echo "" > /home/jelastic/.ssh/known_hosts;
-      service jenkins restart;
+      jem service restart;
       retries=15; while [ $retries -gt 0 ]; do [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]] || break; sleep 10; let retries=${retries}-1; done;
     user: root
 
@@ -81,7 +81,7 @@ actions:
     - cmd[cp]: |-
         pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
         jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
-        sudo service jenkins restart
+        jem service restart
         retries=15; while [ $retries -gt 0 ]; do [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]] || break; sleep 10; let retries=${retries}-1; done;
         echo -e "\n"|ssh-keygen -t rsa -N ""
         wget ${baseUrl}/conf/credentials.xml -O credentials.xml
@@ -96,7 +96,7 @@ actions:
         sed -i 's/EMAIL/${user.email}/' user-creation.groovy
         cat user-creation.groovy | java -jar $jar -auth admin:$pswd -s http://localhost/ groovy =
         rm -f user-creation.groovy
-        sudo service jenkins restart
+        jem service restart
    
    readPublicKeyFromMaster:
     api: env.file.Read
