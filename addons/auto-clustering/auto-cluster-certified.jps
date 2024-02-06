@@ -105,7 +105,6 @@ actions:
     
    configureSlaves:
     - cmd[${this}]:
-        yum -y install gettext;
         echo -e "/home/jelastic/.ssh/authorized_keys\n/etc/ssh/\n/home/jelastic/remoting\n/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf;
       user: root
         
@@ -116,6 +115,7 @@ actions:
         cat /etc/ssh/ssh_host_rsa_key.pub
     - cmd[${nodes.cp.master.id}]: |-
         ssh-keygen -R ${this.slaveNodeIp}
+        ssh-keyscan -H ${this.slaveNodeIp} >> ~/.ssh/known_hosts
         echo ${this.slaveNodeIp} ${response.out} >> ~/.ssh/known_hosts
         pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
         jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
