@@ -1,6 +1,6 @@
 type: update
 id: jenkins-auto-cluster
-baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
+baseUrl: https://raw.githubusercontent.com/dimkadt/jenkins/master
 logo: /images/jenkins.png
 name: Jenkins DevOps Pack Cluster Logic
 targetNodes: none
@@ -83,7 +83,7 @@ actions:
         jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
         jem service restart
         retries=15; while [ $retries -gt 0 ]; do [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]] || break; sleep 10; let retries=${retries}-1; done;
-        echo -e "\n"|ssh-keygen -t rsa -N ""
+        echo -e "\n"|ssh-keygen -N "" -m PEM -t rsa -b 4096
         wget ${baseUrl}/conf/credentials.xml -O credentials.xml
         xmlstarlet ed --inplace -u "com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey/privateKeySource/privateKey" -v "$(cat .ssh/id_rsa)" credentials.xml 2>/dev/null;
         cat credentials.xml | java -jar $jar -s http://localhost -auth admin:$pswd create-credentials-by-xml "SystemCredentialsProvider::SystemContextResolver::jenkins" "(global)"

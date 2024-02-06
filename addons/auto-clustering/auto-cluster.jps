@@ -1,6 +1,6 @@
 type: update
 id: jenkins-auto-cluster
-baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
+baseUrl: https://raw.githubusercontent.com/dimkadt/jenkins/master
 logo: /images/jenkins.png
 name: Jenkins DevOps Pack Cluster Logic
 
