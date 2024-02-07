@@ -78,6 +78,12 @@ actions:
     user: root
 
    setupMaster:
+    - if ('${env.ssl}' === 'false'):
+        - set:
+            protocol: http
+    - else:
+        - set:
+            protocol: https
     - cmd[cp]: |-
         pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
         jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
@@ -90,7 +96,7 @@ actions:
         wget ${baseUrl}/conf/jenkins.model.JenkinsLocationConfiguration.xml -O /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
         chmod 644 /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 
         xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/adminAddress" -v "${user.email}" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
-        xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "http://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
+        xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "${this.protocol}://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
         rm -f credentials.xml
         wget ${baseUrl}/conf/user-creation.groovy
         sed -i 's/EMAIL/${user.email}/' user-creation.groovy
