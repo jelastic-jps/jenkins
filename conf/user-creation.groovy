@@ -2,7 +2,7 @@ import hudson.model.*
 import hudson.security.*
 import hudson.tasks.Mailer
 
-def userId = "jelastic"
+def userId = "jenkins"
 def password = "password"
 def email = "EMAIL"
 def instance = jenkins.model.Jenkins.instance
