@@ -106,12 +106,16 @@ actions:
    configureSlaves:
     - cmd[${this}]:
         echo -e "/home/jelastic/.ssh/authorized_keys\n/etc/ssh/\n/home/jelastic/remoting\n/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf;
+        echo PubkeyAcceptedAlgorithms=+ssh-rsa > /etc/ssh/sshd_config.d/60-pubkeyacceptedalgorithms.conf
+        systemctl restart sshd
       user: root
         
    initSlave:
     - cmd[${this.slaveNodeId}]: |-
         echo "${this.publicKey}" >> /home/jelastic/.ssh/authorized_keys;
         echo '. /etc/profile' >> /home/jelastic/.bashrc
+        systemctl stop jvm &>/dev/null
+        systemctl disable jvm &>/dev/null
         cat /etc/ssh/ssh_host_rsa_key.pub
     - cmd[${nodes.cp.master.id}]: |-
         ssh-keygen -R ${this.slaveNodeIp}
