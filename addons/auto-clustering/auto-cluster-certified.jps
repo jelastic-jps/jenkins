@@ -110,7 +110,7 @@ actions:
     nodeid: ${nodes.cp.master.id}
     
    configureSlaves:
-    - cmd[${this}]:
+    - cmd[${this}]: |-
         echo -e "/home/jelastic/.ssh/authorized_keys\n/etc/ssh/\n/home/jelastic/remoting\n/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf;
         echo PubkeyAcceptedAlgorithms=+ssh-rsa > /etc/ssh/sshd_config.d/60-pubkeyacceptedalgorithms.conf
         systemctl restart sshd
