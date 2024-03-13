@@ -21,7 +21,13 @@ onInstall:
           publicKey: ${this.key}
           slaveNodeId: ${@i.id}
           slaveNodeIp: ${@i.intIP}
-          
+
+onAfterRedeployContainer[slaves]:
+  forEach(event.response.nodes):
+    - cmd[${nodes.cp.master.id}]: |-
+        ssh-keygen -R ${@i.intIP}
+        ssh-keyscan -H ${@i.intIP} >> ~/.ssh/known_hosts
+
 onAfterScaleOut[slaves]:
   - configureSlaves: ${event.response.nodes.join(id,)}
   - readPublicKeyFromMaster
