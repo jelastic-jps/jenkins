@@ -118,15 +118,13 @@ actions:
         
    initSlave:
     - cmd[${this.slaveNodeId}]: |-
+        sudo systemctl stop jvm &>/dev/null
+        sudo systemctl disable jvm &>/dev/null
         echo "${this.publicKey}" >> /home/jelastic/.ssh/authorized_keys;
         echo '. /etc/profile' >> /home/jelastic/.bashrc
-        systemctl stop jvm &>/dev/null
-        systemctl disable jvm &>/dev/null
-        cat /etc/ssh/ssh_host_rsa_key.pub
     - cmd[${nodes.cp.master.id}]: |-
         ssh-keygen -R ${this.slaveNodeIp}
         ssh-keyscan -H ${this.slaveNodeIp} >> ~/.ssh/known_hosts
-        echo ${this.slaveNodeIp} ${response.out} >> ~/.ssh/known_hosts
         pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
         jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
         wget ${baseUrl}/conf/worker.xml -O worker.xml
