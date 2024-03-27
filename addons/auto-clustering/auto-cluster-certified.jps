@@ -21,7 +21,13 @@ onInstall:
           publicKey: ${this.key}
           slaveNodeId: ${@i.id}
           slaveNodeIp: ${@i.intIP}
-          
+
+onAfterRedeployContainer[slaves]:
+  forEach(event.response.nodes):
+    - cmd[${nodes.cp.master.id}]: |-
+        ssh-keygen -R ${@i.intIP}
+        ssh-keyscan -H ${@i.intIP} >> ~/.ssh/known_hosts
+
 onAfterScaleOut[slaves]:
   - configureSlaves: ${event.response.nodes.join(id,)}
   - readPublicKeyFromMaster
@@ -78,19 +84,25 @@ actions:
     user: root
 
    setupMaster:
+    - if ('${env.ssl}' === 'false'):
+        - set:
+            protocol: http
+    - else:
+        - set:
+            protocol: https
     - cmd[cp]: |-
         pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
         jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
         jem service restart
         retries=15; while [ $retries -gt 0 ]; do [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]] || break; sleep 10; let retries=${retries}-1; done;
-        echo -e "\n"|ssh-keygen -t rsa -N ""
+        echo -e "\n"|ssh-keygen -N "" -m PEM -t rsa -b 4096
         wget ${baseUrl}/conf/credentials.xml -O credentials.xml
         xmlstarlet ed --inplace -u "com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey/privateKeySource/privateKey" -v "$(cat .ssh/id_rsa)" credentials.xml 2>/dev/null;
         cat credentials.xml | java -jar $jar -s http://localhost -auth admin:$pswd create-credentials-by-xml "SystemCredentialsProvider::SystemContextResolver::jenkins" "(global)"
         wget ${baseUrl}/conf/jenkins.model.JenkinsLocationConfiguration.xml -O /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
         chmod 644 /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 
         xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/adminAddress" -v "${user.email}" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
-        xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "http://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
+        xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "${this.protocol}://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
         rm -f credentials.xml
         wget ${baseUrl}/conf/user-creation.groovy
         sed -i 's/EMAIL/${user.email}/' user-creation.groovy
@@ -104,19 +116,21 @@ actions:
     nodeid: ${nodes.cp.master.id}
     
    configureSlaves:
-    - cmd[${this}]:
-        yum -y install gettext;
+    - cmd[${this}]: |-
         echo -e "/home/jelastic/.ssh/authorized_keys\n/etc/ssh/\n/home/jelastic/remoting\n/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf;
+        echo PubkeyAcceptedAlgorithms=+ssh-rsa > /etc/ssh/sshd_config.d/60-pubkeyacceptedalgorithms.conf
+        systemctl restart sshd
       user: root
         
    initSlave:
     - cmd[${this.slaveNodeId}]: |-
+        sudo systemctl stop jvm &>/dev/null
+        sudo systemctl disable jvm &>/dev/null
         echo "${this.publicKey}" >> /home/jelastic/.ssh/authorized_keys;
         echo '. /etc/profile' >> /home/jelastic/.bashrc
-        cat /etc/ssh/ssh_host_rsa_key.pub
     - cmd[${nodes.cp.master.id}]: |-
         ssh-keygen -R ${this.slaveNodeIp}
-        echo ${this.slaveNodeIp} ${response.out} >> ~/.ssh/known_hosts
+        ssh-keyscan -H ${this.slaveNodeIp} >> ~/.ssh/known_hosts
         pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
         jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
         wget ${baseUrl}/conf/worker.xml -O worker.xml

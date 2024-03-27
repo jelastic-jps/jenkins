@@ -13,7 +13,7 @@ homepage: https://jenkins.io/
 description: /text/description.md
 
 globals: 
-  engine: openjdk11
+  engine: zulu17
 
 onBeforeInit: /scripts/quotascheck-certified.js
 
