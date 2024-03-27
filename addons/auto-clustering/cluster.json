@@ -1,6 +1,6 @@
 {
   "convertable": false,
-  "jps": "https://raw.githubusercontent.com/dimkadt/jenkins/master/addons/auto-clustering/auto-cluster-certified.jps",
+  "jps": "https://raw.githubusercontent.com/jelastic-jps/jenkins/master/addons/auto-clustering/auto-cluster-certified.jps",
   "defaultState": true,
   "required": true,
   "compatibleAddons": [
