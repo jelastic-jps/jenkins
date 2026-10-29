@@ -26,7 +26,7 @@
   "extraNodes": {
     "nodeGroup": "slaves",
     "nodeType": "javaengine",
-    "engine": "openjdk11",
+    "engine": "zulu21",
     "fixedCloudlets": 8,
     "flexibleCloudlets": 16,
     "diskLimit": "100G",
